@@ -53,8 +53,8 @@ class CommunicationReceive(Page):
         return self.subsession.config is not None and parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['communication'] == 1
     
     def vars_for_template(self):
-        messages = [ { 'player': p.id_in_subsession , 'message': p.message()} for p in self.group.get_players() if p.role() != self.player.role()]
-        messages.append({'player': str(self.player.id_in_subsession) + ' (Me)', 'message':self.player.message() })
+        messages = [ { 'player': 'Counterpart' , 'message': p.message()} for p in self.group.get_players() if p.role() != self.player.role()]
+        messages.append({'player': 'Me', 'message':self.player.message() })
         return {
             'messages': messages,
         }
