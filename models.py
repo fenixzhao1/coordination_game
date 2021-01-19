@@ -16,7 +16,7 @@ This is a configurable bimatrix game.
 
 
 class Constants(BaseConstants):
-    name_in_url = 'bimatrix'
+    name_in_url = 'coordination_game'
     # players per group when not using mean matching
     players_per_group = 2
 	# Maximum number of rounds, actual number is taken as the max round
@@ -27,7 +27,7 @@ class Constants(BaseConstants):
 
 
 def parse_config(config_file):
-    with open('bimatrix/configs/' + config_file) as f:
+    with open('coordination_game/configs/' + config_file) as f:
         rows = list(csv.DictReader(f))
 
     rounds = []
@@ -45,6 +45,7 @@ def parse_config(config_file):
                 [int(row['payoff1Aa']), int(row['payoff2Aa'])], [int(row['payoff1Ab']), int(row['payoff2Ab'])],
                 [int(row['payoff1Ba']), int(row['payoff2Ba'])], [int(row['payoff1Bb']), int(row['payoff2Bb'])]
             ],
+            'communication': int(row['communication']) if row['communication'] else 0,
         })
     return rounds
 
@@ -136,6 +137,9 @@ class Player(BasePlayer):
     silo_num = models.IntegerField()
     _initial_decision = models.FloatField()
     final_payoff = models.CurrencyField()
+    _message = models.StringField(
+        label='What is your message?'
+    )
 
     def initial_decision(self):
         return self._initial_decision
@@ -145,7 +149,12 @@ class Player(BasePlayer):
             return 'column'
         else:
             return 'row'
-
+    
+    def message(self):
+        return self._message
+    
+    def set_message(self, string):
+        self._messsage = string
 
     def get_average_strategy(self, period_start, period_end, decisions):
         weighted_sum_decision = 0

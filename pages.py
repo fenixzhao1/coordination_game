@@ -12,6 +12,53 @@ class Introduction(Page):
         return self.round_number == 1
 
 
+class CommunicationWaitPage(WaitPage):
+
+    body_text = 'Waiting for all players to be ready'
+    wait_for_all_groups = True
+    #after_all_players_arrive = 'set_initial_decisions'
+
+    def is_displayed(self):
+        return self.subsession.config is not None and parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['communication'] != 0
+
+
+class Communication(Page):
+    timeout_seconds = 30
+    form_model = 'player'
+    form_fields = ['_message']
+
+
+    def is_displayed(self):
+        return self.subsession.config is not None and parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['communication'] != 0
+    
+    def vars_for_template(self):
+        communication = parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['communication']
+        return {
+            'realtime': True if communication == 2 else False,
+        }
+
+class CommunicationReceiveWaitPage(WaitPage):
+
+    body_text = 'Waiting for all players to be ready'
+    wait_for_all_groups = True
+    #after_all_players_arrive = 'set_initial_decisions'
+
+    def is_displayed(self):
+        return self.subsession.config is not None and parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['communication'] == 1
+
+class CommunicationReceive(Page):
+    timeout_seconds = 30
+
+    def is_displayed(self):
+        return self.subsession.config is not None and parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['communication'] == 1
+    
+    def vars_for_template(self):
+        messages = [ { 'player': 'Counterpart' , 'message': p.message()} for p in self.group.get_players() if p.role() != self.player.role()]
+        messages.append({'player': 'Me', 'message':self.player.message() })
+        return {
+            'messages': messages,
+        }
+
 class DecisionWaitPage(WaitPage):
 
     body_text = 'Waiting for all players to be ready'
@@ -95,6 +142,10 @@ class Payment(Page):
 
 page_sequence = [
     Introduction,
+    CommunicationWaitPage,
+    Communication,
+    CommunicationReceiveWaitPage,
+    CommunicationReceive,
     DecisionWaitPage,
     Decision,
     ResultsWaitPage,

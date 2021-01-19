@@ -1,0 +1,47 @@
+{% extends "otree_redwood/Page.html" %}
+{% load staticfiles otree_tags %}
+{% block scripts %}
+    <script src="{% static 'bimatrix/highcharts.js' %}"></script>
+
+    <script type="module" src="{% static 'bimatrix/display-matrix/display-matrix.js' %}"></script>
+{% endblock %}
+{% block title %}
+    Communication
+{% endblock %}
+
+{% block content %}
+    {% with config=subsession.config %}
+        <p>You are now playing Game {{ subsession.round_number }}</p>
+        <leeps-bimatrix
+            payoff-matrix='{{ config.payoff_matrix }}'
+            period-length='{{ config.period_length }}'
+            rate-limit='{{ config.rate_limit }}'
+            {% if config.mean_matching %}
+            mean-matching
+            {% endif %}
+            {% if config.num_subperiods %}
+            num-subperiods='{{ config.num_subperiods }}'
+            {% endif %}
+            {% if config.pure_strategy %}
+            pure-strategy
+            {% endif %}
+            {% if config.show_at_worst %}
+            show-at-worst
+            {% endif %}
+            {% if config.show_best_response %}
+            show-best-response
+            {% endif %}
+        ></leeps-bimatrix>
+    {% endwith %}
+    {% if realtime %}
+
+        {% chat nickname="Player" %}
+
+    {% elif not realtime %}
+        
+        {% formfields %}
+
+        {% next_button %}
+
+    {% endif %}
+{% endblock %}
