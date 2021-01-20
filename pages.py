@@ -23,7 +23,7 @@ class CommunicationWaitPage(WaitPage):
 
 
 class Communication(Page):
-    timeout_seconds = 30
+    timeout_seconds = 60
     form_model = 'player'
     form_fields = ['_message']
 
@@ -47,7 +47,7 @@ class CommunicationReceiveWaitPage(WaitPage):
         return self.subsession.config is not None and parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['communication'] == 1
 
 class CommunicationReceive(Page):
-    timeout_seconds = 30
+    timeout_seconds = 60
 
     def is_displayed(self):
         return self.subsession.config is not None and parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['communication'] == 1
