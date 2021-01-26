@@ -35,6 +35,7 @@ class Communication(Page):
         communication = parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['communication']
         return {
             'realtime': True if communication == 2 else False,
+            'channel': str(self.group.session.code)+ "_" + str(self.group.subsession_id) + "_" + str(self.group.id_in_subsession),
         }
 
 class CommunicationReceiveWaitPage(WaitPage):
