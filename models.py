@@ -46,6 +46,8 @@ def parse_config(config_file):
                 [int(row['payoff1Ba']), int(row['payoff2Ba'])], [int(row['payoff1Bb']), int(row['payoff2Bb'])]
             ],
             'communication': int(row['communication']) if row['communication'] else 0,
+            'signal_exist': True if row['signal_exist'] == 'TRUE' else False,
+            'signal_freq': int(row['signal_freq']),
         })
     return rounds
 

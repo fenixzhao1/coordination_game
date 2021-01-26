@@ -34,6 +34,10 @@
             {% if config.show_best_response %}
             show-best-response
             {% endif %}
+            {% if config.signal_exist %}
+            signal-exist
+            {% endif %}
+            signal-freq='{{ config.signal_freq }}'
         ></leeps-bimatrix>
     {% endwith %}
 
