@@ -17,6 +17,9 @@ def get_config_columns(group):
         config['show_best_response'],
         config['rate_limit'],
         config['mean_matching'],
+        config['communication'],
+        config['signal_exist'],
+        config['signal_freq']
     ]
 
 def get_output_table_header(groups):
@@ -39,6 +42,9 @@ def get_output_table_header(groups):
         'show_best_response',
         'rate_limit',
         'mean_matching',
+        'communication',
+        'signal_exist',
+        'signal_freq'
     ]
 
     header += [
