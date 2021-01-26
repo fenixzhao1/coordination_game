@@ -121,101 +121,117 @@ export class LeepsBimatrix extends PolymerElement {
                         <div id="heatmap-column" class="layout horizontal">
 
                                 <template is="dom-if" if="[[ meanMatching ]]">
-                                    <discrete-mean-matching-heatmap
-                                        class="self-center"
-                                        my-decision="[[ myDecision ]]"
-                                        other-decision="[[ otherDecision ]]"
-                                        size="300"
-                                        payoffs="[[ myPayoffs ]]"
-                                        color="[[ myColor ]]"
-                                        style="margin-right: 20px;">
-                                    </discrete-mean-matching-heatmap>
-                                    <discrete-mean-matching-heatmap
-                                        class="self-center"
-                                        my-decision="[[ myDecision ]]"
-                                        other-decision="[[ otherDecision ]]"
-                                        size="300"
-                                        payoffs="[[ otherPayoffs ]]"
-                                        color="[[ otherColor ]]">
-                                    </discrete-mean-matching-heatmap>
+                                    <div class="layout vertical">
+                                        <h1> My Payoff Matrix</h1>
+                                        <discrete-mean-matching-heatmap
+                                            class="self-center"
+                                            my-decision="[[ myDecision ]]"
+                                            other-decision="[[ otherDecision ]]"
+                                            size="300"
+                                            payoffs="[[ myPayoffs ]]"
+                                            color="[[ myColor ]]"
+                                            style="margin-right: 20px;">
+                                        </discrete-mean-matching-heatmap>
+                                    </div>
+                                    <div class="layout vertical">
+                                        <h1> The counterpart Payoff Matrix</h1>
+                                        <discrete-mean-matching-heatmap
+                                            class="self-center"
+                                            my-decision="[[ myDecision ]]"
+                                            other-decision="[[ otherDecision ]]"
+                                            size="300"
+                                            payoffs="[[ otherPayoffs ]]"
+                                            color="[[ otherColor ]]">
+                                        </discrete-mean-matching-heatmap>
+                                    </div>
                                 </template>
                                 <template is="dom-if" if="[[ !meanMatching ]]">
-                                    <table id="payoff-table" class="self-center" style="margin-right: 20px;">
-                                        <tr>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 1) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(myPayoffs, 0) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(otherPayoffs, 0) ]]
-                                                </span>
-                                            </td>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 0) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(myPayoffs, 1) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(otherPayoffs, 1) ]]
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 1) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(myPayoffs, 2) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(otherPayoffs, 2) ]]
-                                                </span>
-                                            </td>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 0) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(myPayoffs, 3) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(otherPayoffs, 3) ]]
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <table id="payoff-table" class="self-center">
-                                        <tr>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 1) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(otherPayoffs, 0) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(myPayoffs, 0) ]]
-                                                </span>
-                                            </td>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 0) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(otherPayoffs, 1) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(myPayoffs, 1) ]]
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 1) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(otherPayoffs, 2) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(myPayoffs, 2) ]]
-                                                </span>
-                                            </td>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 0) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(otherPayoffs, 3) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(myPayoffs, 3) ]]
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                    <div class="layout vertical">
+                                        <h2> My Payoff Matrix</h2>
+                                        <div class="layout horizontal">
+                                            <table id="payoff-table" class="self-center" style="margin-right: 20px;">
+                                                <tr>
+                                                    <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 1) ]]">
+                                                        <span class="your-payoff">
+                                                            [[ _array(myPayoffs, 0) ]]
+                                                        </span>,
+                                                        <span class="other-payoff">
+                                                            [[ _array(otherPayoffs, 0) ]]
+                                                        </span>
+                                                    </td>
+                                                    <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 0) ]]">
+                                                        <span class="your-payoff">
+                                                            [[ _array(myPayoffs, 1) ]]
+                                                        </span>,
+                                                        <span class="other-payoff">
+                                                            [[ _array(otherPayoffs, 1) ]]
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 1) ]]">
+                                                        <span class="your-payoff">
+                                                            [[ _array(myPayoffs, 2) ]]
+                                                        </span>,
+                                                        <span class="other-payoff">
+                                                            [[ _array(otherPayoffs, 2) ]]
+                                                        </span>
+                                                    </td>
+                                                    <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 0) ]]">
+                                                        <span class="your-payoff">
+                                                            [[ _array(myPayoffs, 3) ]]
+                                                        </span>,
+                                                        <span class="other-payoff">
+                                                            [[ _array(otherPayoffs, 3) ]]
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="layout vertical">
+                                        <h2> The counterpart Payoff Matrix</h2>
+                                        <div class="layout horizontal">
+                                            <table id="payoff-table" class="self-center">
+                                                <tr>
+                                                    <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 1) ]]">
+                                                        <span class="your-payoff">
+                                                            [[ _array(otherPayoffs, 0) ]]
+                                                        </span>,
+                                                        <span class="other-payoff">
+                                                            [[ _array(myPayoffs, 0) ]]
+                                                        </span>
+                                                    </td>
+                                                    <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 0) ]]">
+                                                        <span class="your-payoff">
+                                                            [[ _array(otherPayoffs, 1) ]]
+                                                        </span>,
+                                                        <span class="other-payoff">
+                                                            [[ _array(myPayoffs, 1) ]]
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 1) ]]">
+                                                        <span class="your-payoff">
+                                                            [[ _array(otherPayoffs, 2) ]]
+                                                        </span>,
+                                                        <span class="other-payoff">
+                                                            [[ _array(myPayoffs, 2) ]]
+                                                        </span>
+                                                    </td>
+                                                    <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 0) ]]">
+                                                        <span class="your-payoff">
+                                                            [[ _array(otherPayoffs, 3) ]]
+                                                        </span>,
+                                                        <span class="other-payoff">
+                                                            [[ _array(myPayoffs, 3) ]]
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </template>
                             </template>
                         </div>

@@ -33,6 +33,14 @@ export class LeepsBimatrix extends PolymerElement {
                     user-select: none;
                 }
 
+                .dot {
+                    height: 50px;
+                    width: 50px;
+                    background-color: blue;
+                    border-radius: 50%;
+                    display: inline-block;
+                }
+
                 #graphs-column {
                     margin-left: 20px;
                 }
@@ -132,6 +140,11 @@ export class LeepsBimatrix extends PolymerElement {
                 mean-matching="[[ meanMatching ]]">
             </redwood-decision>
 
+            <redwood-channel
+                channel="group_decisions"
+                on-event="_handleGroupDecisionsEvent">
+            </redwood-channel>
+
             <redwood-decision-bot
                 id="bot"
                 my-decision="{{ myPlannedDecision }}"
@@ -149,101 +162,107 @@ export class LeepsBimatrix extends PolymerElement {
                     </template>
 
                     <div class="layout horizontal">
-
-                        <div id="heatmap-column" class="layout horizontal">
-                            <template is="dom-if" if="[[ pureStrategy ]]">
-                                <paper-radio-group
-                                    class="layout vertical around-justified self-center"
-                                    selected="{{ _myPlannedDecisionString }}">
-                                    <paper-radio-button name="1"></paper-radio-button>
-                                    <paper-radio-button name="0"></paper-radio-button>
-                                </paper-radio-group>
-
-                                <template is="dom-if" if="[[ meanMatching ]]">
-                                    <discrete-mean-matching-heatmap
-                                        class="self-center"
-                                        my-decision="[[ myDecision ]]"
-                                        other-decision="[[ otherDecision ]]"
-                                        size="300"
-                                        payoffs="[[ myPayoffs ]]"
-                                        color="[[ myColor ]]">
-                                    </discrete-mean-matching-heatmap>
-                                </template>
-                                <template is="dom-if" if="[[ !meanMatching ]]">
-                                    <table id="payoff-table" class="self-center">
-                                        <tr>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 1) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(myPayoffs, 0) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(otherPayoffs, 0) ]]
-                                                </span>
-                                            </td>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 0) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(myPayoffs, 1) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(otherPayoffs, 1) ]]
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 1) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(myPayoffs, 2) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(otherPayoffs, 2) ]]
-                                                </span>
-                                            </td>
-                                            <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 0) ]]">
-                                                <span class="your-payoff">
-                                                    [[ _array(myPayoffs, 3) ]]
-                                                </span>,
-                                                <span class="other-payoff">
-                                                    [[ _array(otherPayoffs, 3) ]]
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </template>
-                            </template>
-                            <template is="dom-if" if="[[ !pureStrategy ]]">
-                                <div class="layout vertical start">
-                                    <bimatrix-heatmap
-                                        id="counterpart-heatmap"
-                                        size="120"
-                                        my-decision="[[ myPlannedDecision ]]"
-                                        other-decision="[[ otherDecision ]]"
-                                        payoffs="[[ otherPayoffs ]]"
-                                        color="[[ otherColor ]]">
-                                    </bimatrix-heatmap>
-                                    <div id="your-heatmap" class="layout horizontal start">
-                                        <div class="slider-container">
-                                            <styled-range
-                                                min="0"
-                                                max="1"
-                                                step="0.01"
-                                                disabled="[[ !_isPeriodRunning ]]"
-                                                value="{{ myPlannedDecision }}"
-                                                rate-limit="[[ rateLimit ]]"
-                                                initial-value="[[ initialDecision ]]">
-                                            </styled-range>
-                                        </div>
-                                        <bimatrix-heatmap
-                                            size="300"
-                                            my-decision="[[ myPlannedDecision ]]"
-                                            other-decision="[[ otherDecision ]]"
-                                            payoffs="[[ myPayoffs ]]"
-                                            color="[[ myColor ]]"
-                                            show-at-worst="{{ showAtWorst }}"
-                                            show-best-response="{{ showBestResponse }}">
-                                        </bimatrix-heatmap>
-                                    </div>
+                        <div class="layout vertical">
+                            <template is="dom-if" if="[[ signalExist ]]">
+                               <div class="layout horizontal around-justified self-center" style="margin-bottom:10px;">
+                                    <span class="dot" id="signal"></span>
                                 </div>
                             </template>
+                            <div id="heatmap-column" class="layout horizontal">
+                                <template is="dom-if" if="[[ pureStrategy ]]">
+                                    <paper-radio-group
+                                        class="layout vertical around-justified self-center"
+                                        selected="{{ _myPlannedDecisionString }}">
+                                        <paper-radio-button name="1"></paper-radio-button>
+                                        <paper-radio-button name="0"></paper-radio-button>
+                                    </paper-radio-group>
+
+                                    <template is="dom-if" if="[[ meanMatching ]]">
+                                        <discrete-mean-matching-heatmap
+                                            class="self-center"
+                                            my-decision="[[ myDecision ]]"
+                                            other-decision="[[ otherDecision ]]"
+                                            size="300"
+                                            payoffs="[[ myPayoffs ]]"
+                                            color="[[ myColor ]]">
+                                        </discrete-mean-matching-heatmap>
+                                    </template>
+                                    <template is="dom-if" if="[[ !meanMatching ]]">
+                                        <table id="payoff-table" class="self-center">
+                                            <tr>
+                                                <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 1) ]]">
+                                                    <span class="your-payoff">
+                                                        [[ _array(myPayoffs, 0) ]]
+                                                    </span>,
+                                                    <span class="other-payoff">
+                                                        [[ _array(otherPayoffs, 0) ]]
+                                                    </span>
+                                                </td>
+                                                <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 1, 0) ]]">
+                                                    <span class="your-payoff">
+                                                        [[ _array(myPayoffs, 1) ]]
+                                                    </span>,
+                                                    <span class="other-payoff">
+                                                        [[ _array(otherPayoffs, 1) ]]
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 1) ]]">
+                                                    <span class="your-payoff">
+                                                        [[ _array(myPayoffs, 2) ]]
+                                                    </span>,
+                                                    <span class="other-payoff">
+                                                        [[ _array(otherPayoffs, 2) ]]
+                                                    </span>
+                                                </td>
+                                                <td class$="[[ _payoffMatrixClass(myPlannedDecision, otherDecision, 0, 0) ]]">
+                                                    <span class="your-payoff">
+                                                        [[ _array(myPayoffs, 3) ]]
+                                                    </span>,
+                                                    <span class="other-payoff">
+                                                        [[ _array(otherPayoffs, 3) ]]
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </template>
+                                </template>
+                                <template is="dom-if" if="[[ !pureStrategy ]]">
+                                    <div class="layout vertical start">
+                                        <bimatrix-heatmap
+                                            id="counterpart-heatmap"
+                                            size="120"
+                                            my-decision="[[ myPlannedDecision ]]"
+                                            other-decision="[[ otherDecision ]]"
+                                            payoffs="[[ otherPayoffs ]]"
+                                            color="[[ otherColor ]]">
+                                        </bimatrix-heatmap>
+                                        <div id="your-heatmap" class="layout horizontal start">
+                                            <div class="slider-container">
+                                                <styled-range
+                                                    min="0"
+                                                    max="1"
+                                                    step="0.01"
+                                                    disabled="[[ !_isPeriodRunning ]]"
+                                                    value="{{ myPlannedDecision }}"
+                                                    rate-limit="[[ rateLimit ]]"
+                                                    initial-value="[[ initialDecision ]]">
+                                                </styled-range>
+                                            </div>
+                                            <bimatrix-heatmap
+                                                size="300"
+                                                my-decision="[[ myPlannedDecision ]]"
+                                                other-decision="[[ otherDecision ]]"
+                                                payoffs="[[ myPayoffs ]]"
+                                                color="[[ myColor ]]"
+                                                show-at-worst="{{ showAtWorst }}"
+                                                show-best-response="{{ showBestResponse }}">
+                                            </bimatrix-heatmap>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
                         </div>
 
                         <div id="graphs-column" class="layout horizontal">
@@ -327,6 +346,10 @@ export class LeepsBimatrix extends PolymerElement {
                 type: Boolean,
                 value: false
             },
+            timer: {
+                type: Number,
+                value: 0
+            },
             showAtWorst: {
                 type: Boolean,
                 value: false,
@@ -341,6 +364,13 @@ export class LeepsBimatrix extends PolymerElement {
             meanMatching: {
                 type: Boolean,
                 value: false,
+            },
+            signalExist: {
+                type: Boolean,
+                value: false,
+            },
+            signalFreq: {
+                type: Number,
             },
             myChoiceSeries: {
                 type: Array,
@@ -451,6 +481,21 @@ export class LeepsBimatrix extends PolymerElement {
         window.cancelAnimationFrame(this._animID);
         this._subperiodProgress = 0;
     }
+    _handleGroupDecisionsEvent(event) {
+        if(this.numSubperiods == 0){
+            this.timer += 1;
+            if(this.timer == this.signalFreq){
+                this.timer = 0;
+                if(this.shadowRoot.querySelector('#signal').style.backgroundColor != 'blue' && this.shadowRoot.querySelector('#signal').style.backgroundColor != 'red'){
+                    this.shadowRoot.querySelector('#signal').style.backgroundColor = 'red';
+                }
+                else if(this.shadowRoot.querySelector('#signal').style.backgroundColor == 'blue'){
+                    this.shadowRoot.querySelector('#signal').style.backgroundColor = 'red';
+                }
+                else this.shadowRoot.querySelector('#signal').style.backgroundColor = 'blue';
+            }
+        }
+    }
     _onGroupDecisionsChanged() {
         this.lastT = performance.now();
         this._subperiodProgress = 0;
@@ -459,6 +504,19 @@ export class LeepsBimatrix extends PolymerElement {
         const deltaT = (t - this.lastT);
         const secondsPerSubperiod = this.periodLength / this.numSubperiods;
         this._subperiodProgress = 100 * ((deltaT / 1000) / secondsPerSubperiod);
+        if(this.numSubperiods == 0){
+            this.timer += 1;
+            if(this.timer == (this.signalFreq * 20)){
+                this.timer = 0;
+                if(this.shadowRoot.querySelector('#signal').style.backgroundColor != 'blue' && this.shadowRoot.querySelector('#signal').style.backgroundColor != 'red'){
+                    this.shadowRoot.querySelector('#signal').style.backgroundColor = 'red';
+                }
+                else if(this.shadowRoot.querySelector('#signal').style.backgroundColor == 'blue'){
+                    this.shadowRoot.querySelector('#signal').style.backgroundColor = 'red';
+                }
+                else this.shadowRoot.querySelector('#signal').style.backgroundColor = 'blue';
+            }
+        }
         this._animID = window.requestAnimationFrame(
             this._updateSubperiodProgress.bind(this));
     }
