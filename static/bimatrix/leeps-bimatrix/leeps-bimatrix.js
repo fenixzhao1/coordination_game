@@ -144,12 +144,12 @@ export class LeepsBimatrix extends PolymerElement {
                 channel="group_decisions"
                 on-event="_handleGroupDecisionsEvent">
             </redwood-channel>
-
+<!--
             <redwood-decision-bot
                 id="bot"
                 my-decision="{{ myPlannedDecision }}"
                 other-decision="[[ otherDecision ]]">
-            </redwood-decision-bot>
+            </redwood-decision-bot> -->
 
             <div class="layout vertical center">
 
@@ -506,7 +506,7 @@ export class LeepsBimatrix extends PolymerElement {
         this._subperiodProgress = 100 * ((deltaT / 1000) / secondsPerSubperiod);
         if(this.numSubperiods == 0){
             this.timer += 1;
-            if(this.timer == (this.signalFreq * 20)){
+            if(this.timer == (this.signalFreq * 35)){
                 this.timer = 0;
                 if(this.shadowRoot.querySelector('#signal').style.backgroundColor != 'blue' && this.shadowRoot.querySelector('#signal').style.backgroundColor != 'red'){
                     this.shadowRoot.querySelector('#signal').style.backgroundColor = 'red';
