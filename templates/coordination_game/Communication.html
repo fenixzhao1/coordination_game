@@ -35,6 +35,9 @@
     {% endwith %}
 
     {% if realtime %}
+        {% with config=subsession.config %}
+            <p> In this game, you will interact with your counterpart in real time for {{config.period_length}} seconds.</p>
+        {% endwith %}
 
         <p>
         Before the game starts, you can chat with your counterpart. Please follow two rules: <br>
@@ -46,6 +49,10 @@
         {% chat nickname="Participant" channel=channel %}
 
     {% elif not realtime %}
+        {% with config=subsession.config %}
+            <p>  In this game, you will interact with your counterpart repeatedly for {{config.num_subperiods}} periods,
+                 with {{ secs_per_per  }} seconds for each period.</p>
+        {% endwith %}
 
         <p>
         Before the game starts, you can send a message to your counterpart. Please follow two rules: <br>
