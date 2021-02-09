@@ -189,6 +189,7 @@ export class LeepsBimatrix extends PolymerElement {
                                             </table>
                                         </div>
                                     </div>
+                                    <!--
                                     <div class="layout vertical">
                                         <h2> The counterpart Payoff Matrix</h2>
                                         <div class="layout horizontal">
@@ -232,6 +233,7 @@ export class LeepsBimatrix extends PolymerElement {
                                             </table>
                                         </div>
                                     </div>
+            -->
                                 </template>
                             </template>
                         </div>
