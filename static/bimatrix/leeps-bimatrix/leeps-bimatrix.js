@@ -34,10 +34,8 @@ export class LeepsBimatrix extends PolymerElement {
                 }
 
                 .dot {
-                    height: 50px;
-                    width: 50px;
-                    background-color: blue;
-                    border-radius: 50%;
+                    font-size: 65px;
+                    font-weight: bold;
                     display: inline-block;
                 }
 
@@ -165,7 +163,7 @@ export class LeepsBimatrix extends PolymerElement {
                         <div class="layout vertical">
                             <template is="dom-if" if="[[ signalExist ]]">
                                <div class="layout horizontal around-justified self-center" style="margin-bottom:10px;">
-                                    <span class="dot" id="signal"></span>
+                                    <p class="dot" id="signal">@</p>
                                 </div>
                             </template>
                             <div id="heatmap-column" class="layout horizontal">
@@ -482,17 +480,17 @@ export class LeepsBimatrix extends PolymerElement {
         this._subperiodProgress = 0;
     }
     _handleGroupDecisionsEvent(event) {
-        if(this.numSubperiods == 0){
+        if(this.numSubperiods > 0){
             this.timer += 1;
             if(this.timer == this.signalFreq){
                 this.timer = 0;
-                if(this.shadowRoot.querySelector('#signal').style.backgroundColor != 'blue' && this.shadowRoot.querySelector('#signal').style.backgroundColor != 'red'){
-                    this.shadowRoot.querySelector('#signal').style.backgroundColor = 'red';
+                if(this.shadowRoot.querySelector('#signal').textContent != '@' && this.shadowRoot.querySelector('#signal').textContent != '#'){
+                    this.shadowRoot.querySelector('#signal').textContent = '#';
                 }
-                else if(this.shadowRoot.querySelector('#signal').style.backgroundColor == 'blue'){
-                    this.shadowRoot.querySelector('#signal').style.backgroundColor = 'red';
+                else if(this.shadowRoot.querySelector('#signal').textContent == '@'){
+                    this.shadowRoot.querySelector('#signal').textContent = '#';
                 }
-                else this.shadowRoot.querySelector('#signal').style.backgroundColor = 'blue';
+                else this.shadowRoot.querySelector('#signal').textContent = '#';
             }
         }
     }
@@ -508,13 +506,13 @@ export class LeepsBimatrix extends PolymerElement {
             this.timer += 1;
             if(this.timer == (this.signalFreq * 35)){
                 this.timer = 0;
-                if(this.shadowRoot.querySelector('#signal').style.backgroundColor != 'blue' && this.shadowRoot.querySelector('#signal').style.backgroundColor != 'red'){
-                    this.shadowRoot.querySelector('#signal').style.backgroundColor = 'red';
+                if(this.shadowRoot.querySelector('#signal').textContent != '@' && this.shadowRoot.querySelector('#signal').textContent != '#'){
+                    this.shadowRoot.querySelector('#signal').textContent = '#';
                 }
-                else if(this.shadowRoot.querySelector('#signal').style.backgroundColor == 'blue'){
-                    this.shadowRoot.querySelector('#signal').style.backgroundColor = 'red';
+                else if(this.shadowRoot.querySelector('#signal').textContent == '@'){
+                    this.shadowRoot.querySelector('#signal').textContent = '#';
                 }
-                else this.shadowRoot.querySelector('#signal').style.backgroundColor = 'blue';
+                else this.shadowRoot.querySelector('#signal').textContent = '@';
             }
         }
         this._animID = window.requestAnimationFrame(
