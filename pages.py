@@ -33,10 +33,13 @@ class Communication(Page):
     
     def vars_for_template(self):
         communication = parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['communication']
+
+        periods = max(int(parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['num_subperiods']), 1)
+
         return {
             'realtime': True if communication == 2 else False,
             'channel': str(self.group.session.code)+ "_" + str(self.group.subsession_id) + "_" + str(self.group.id_in_subsession),
-            'secs_per_per': int(parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['period_length']) / int(parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['num_subperiods'])
+            'secs_per_per': int(parse_config(self.group.session.config['config_file'])[self.group.round_number - 1]['period_length']) / periods
         }
 
 class CommunicationReceiveWaitPage(WaitPage):
