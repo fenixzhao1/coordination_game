@@ -490,7 +490,7 @@ export class LeepsBimatrix extends PolymerElement {
                 else if(this.shadowRoot.querySelector('#signal').textContent == '@'){
                     this.shadowRoot.querySelector('#signal').textContent = '#';
                 }
-                else this.shadowRoot.querySelector('#signal').textContent = '#';
+                else this.shadowRoot.querySelector('#signal').textContent = '@';
             }
         }
     }
@@ -504,7 +504,7 @@ export class LeepsBimatrix extends PolymerElement {
         this._subperiodProgress = 100 * ((deltaT / 1000) / secondsPerSubperiod);
         if(this.numSubperiods == 0){
             this.timer += 1;
-            if(this.timer == (this.signalFreq * 35)){
+            if(this.timer >= (this.signalFreq * 37)){
                 this.timer = 0;
                 if(this.shadowRoot.querySelector('#signal').textContent != '@' && this.shadowRoot.querySelector('#signal').textContent != '#'){
                     this.shadowRoot.querySelector('#signal').textContent = '#';
