@@ -411,6 +411,7 @@ export class LeepsBimatrix extends PolymerElement {
 
     ready() {
         super.ready()
+        console.log(this.signalExist);
         // set payoff indices
         if (this.$.constants.idInGroup === undefined) {
             console.log('Not in game, manually setting payoffIndex');
