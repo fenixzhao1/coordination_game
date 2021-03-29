@@ -19,7 +19,9 @@ def get_config_columns(group):
         config['mean_matching'],
         config['communication'],
         config['signal_exist'],
-        config['signal_freq']
+        config['signal_freq'],
+        config['signaltwo_exist'],
+        config['signaltwo_freq']
     ]
 
 def get_output_table_header(groups):
@@ -44,7 +46,9 @@ def get_output_table_header(groups):
         'mean_matching',
         'communication',
         'signal_exist',
-        'signal_freq'
+        'signal_freq',
+        'signaltwo_exist',
+        'signaltwo_freq'
     ]
 
     header += [
