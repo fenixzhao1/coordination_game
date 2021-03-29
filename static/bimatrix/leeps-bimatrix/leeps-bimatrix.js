@@ -142,7 +142,11 @@ export class LeepsBimatrix extends PolymerElement {
                 channel="group_decisions"
                 on-event="_handleGroupDecisionsEvent">
             </redwood-channel>
-<!--
+ <!--           <audio id="myAudio">
+                <source src="beep.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+
             <redwood-decision-bot
                 id="bot"
                 my-decision="{{ myPlannedDecision }}"
@@ -348,6 +352,10 @@ export class LeepsBimatrix extends PolymerElement {
                 type: Number,
                 value: 0
             },
+            timerTwo: {
+                type: Number,
+                value: 0
+            },
             showAtWorst: {
                 type: Boolean,
                 value: false,
@@ -368,6 +376,13 @@ export class LeepsBimatrix extends PolymerElement {
                 value: false,
             },
             signalFreq: {
+                type: Number,
+            },
+            signaltwoExist: {
+                type: Boolean,
+                value: false,
+            },
+            signaltwoFreq: {
                 type: Number,
             },
             myChoiceSeries: {
@@ -493,6 +508,12 @@ export class LeepsBimatrix extends PolymerElement {
                 }
                 else this.shadowRoot.querySelector('#signal').textContent = '@';
             }
+            this.timerTwo += 1;
+            if(this.timerTwo == this.signaltwoFreq){
+                this.timerTwo = 0;
+                var snd = new Audio("http://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3");
+                snd.play();
+            }
         }
     }
     _onGroupDecisionsChanged() {
@@ -514,6 +535,12 @@ export class LeepsBimatrix extends PolymerElement {
                     this.shadowRoot.querySelector('#signal').textContent = '#';
                 }
                 else this.shadowRoot.querySelector('#signal').textContent = '@';
+            }
+            this.timerTwo += 1;
+            if(this.timerTwo == (this.signaltwoFreq * 37)){
+                this.timerTwo = 0;
+                var snd = new Audio("http://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3");
+                snd.play();
             }
         }
         this._animID = window.requestAnimationFrame(
