@@ -38,6 +38,10 @@
             signal-exist
             {% endif %}
             signal-freq='{{ config.signal_freq }}'
+            {% if config.signaltwo_exist %}
+            signaltwo-exist
+            {% endif %}
+            signaltwo-freq='{{ config.signaltwo_freq }}'
         ></leeps-bimatrix>
     {% endwith %}
 

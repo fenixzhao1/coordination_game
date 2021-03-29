@@ -48,6 +48,8 @@ def parse_config(config_file):
             'communication': int(row['communication']) if row['communication'] else 0,
             'signal_exist': True if row['signal_exist'] == 'TRUE' else False,
             'signal_freq': int(row['signal_freq']),
+            'signaltwo_exist': True if row['signaltwo_exist'] == 'TRUE' else False,
+            'signaltwo_freq': int(row['signaltwo_freq']),
         })
     return rounds
 
