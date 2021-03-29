@@ -508,12 +508,15 @@ export class LeepsBimatrix extends PolymerElement {
                 }
                 else this.shadowRoot.querySelector('#signal').textContent = '@';
             }
-            this.timerTwo += 1;
-            if(this.timerTwo == this.signaltwoFreq){
-                this.timerTwo = 0;
-                var snd = new Audio("http://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3");
-                snd.play();
+            if(this.signaltwoExist){
+                this.timerTwo += 1;
+                if(this.timerTwo == this.signaltwoFreq){
+                    this.timerTwo = 0;
+                    var snd = new Audio("http://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3");
+                    snd.play();
+                }
             }
+            
         }
     }
     _onGroupDecisionsChanged() {
@@ -536,11 +539,13 @@ export class LeepsBimatrix extends PolymerElement {
                 }
                 else this.shadowRoot.querySelector('#signal').textContent = '@';
             }
-            this.timerTwo += 1;
-            if(this.timerTwo == (this.signaltwoFreq * 37)){
-                this.timerTwo = 0;
-                var snd = new Audio("http://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3");
-                snd.play();
+            if(this.signaltwoExist){
+                this.timerTwo += 1;
+                if(this.timerTwo == (this.signaltwoFreq * 37)){
+                    this.timerTwo = 0;
+                    var snd = new Audio("http://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3");
+                    snd.play();
+                }
             }
         }
         this._animID = window.requestAnimationFrame(
