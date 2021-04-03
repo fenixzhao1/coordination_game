@@ -21,7 +21,8 @@ def get_config_columns(group):
         config['signal_exist'],
         config['signal_freq'],
         config['signaltwo_exist'],
-        config['signaltwo_freq']
+        config['signaltwo_freq'],
+        config['signalthree_exist'],
     ]
 
 def get_output_table_header(groups):
@@ -48,7 +49,8 @@ def get_output_table_header(groups):
         'signal_exist',
         'signal_freq',
         'signaltwo_exist',
-        'signaltwo_freq'
+        'signaltwo_freq',
+        'signalthree_exist',
     ]
 
     header += [

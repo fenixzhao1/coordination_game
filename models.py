@@ -50,6 +50,7 @@ def parse_config(config_file):
             'signal_freq': int(row['signal_freq']),
             'signaltwo_exist': True if row['signaltwo_exist'] == 'TRUE' else False,
             'signaltwo_freq': int(row['signaltwo_freq']),
+            'signalthree_exist': True if row['signalthree_exist'] == 'TRUE' else False,
         })
     return rounds
 

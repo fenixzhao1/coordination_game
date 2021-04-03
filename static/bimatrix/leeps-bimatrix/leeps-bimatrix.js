@@ -110,6 +110,7 @@ export class LeepsBimatrix extends PolymerElement {
                     margin-bottom: 10px;
                     --paper-progress-height: 30px;
                 }
+                
 
                 .light-blue {
                     background-color: #b5d9ff;
@@ -120,6 +121,53 @@ export class LeepsBimatrix extends PolymerElement {
                 }
 
             </style>
+            <style>
+                .meter { 
+                    height: 30px;
+                    position: relative;
+                    background: #f3efe6;
+                    overflow: hidden;
+                }
+
+                .meter span {
+                    display: block;
+                    height: 100%;
+                }
+
+                @keyframes progressBar {
+                    0% { width: 0; }
+                    100% { width: 100%; }
+                }
+
+                @-webkit-keyframes progressBar {
+                    0% { width: 0; }
+                    100% { width: 100%; }
+                }
+
+                @-moz-keyframes progressBar {
+                    0% { width: 0; }
+                    100% { width: 100%; }
+                }
+
+                .progress {
+                    background-color: #e4c465;
+                    animation: progressBar 6s ease-in-out infinite;
+                    animation-fill-mode:both;
+                    -webkit-animation: progressBar 6s ease-in-out infinite;
+                    -webkit-animation-fill-mode:both; 
+                    -moz-animation: progressBar 6s ease-in-out infinite;
+                    -moz-animation-fill-mode:both; 
+                }
+            </style>
+            <template is="dom-if" if="[[ signalthreeExist ]]">
+                <div class="layout vertical center">
+                    <div class="layout vertical end">
+                        <div class="meter" style="width:17%;position: absolute; right: 0px;margin-right: 20%;">
+                                <span style="width:100%;"><span class="progress"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </template>
 
             <otree-constants id="constants"></otree-constants>
             <redwood-period
@@ -142,19 +190,8 @@ export class LeepsBimatrix extends PolymerElement {
                 channel="group_decisions"
                 on-event="_handleGroupDecisionsEvent">
             </redwood-channel>
- <!--           <audio id="myAudio">
-                <source src="beep.mp3" type="audio/mp3">
-                Your browser does not support the audio element.
-            </audio>
-
-            <redwood-decision-bot
-                id="bot"
-                my-decision="{{ myPlannedDecision }}"
-                other-decision="[[ otherDecision ]]">
-            </redwood-decision-bot> -->
 
             <div class="layout vertical center">
-
                 <div class="layout vertical end">
 
                     <template is="dom-if" if="[[ numSubperiods ]]">
@@ -162,6 +199,7 @@ export class LeepsBimatrix extends PolymerElement {
                             value="[[ _subperiodProgress ]]">
                         </paper-progress>
                     </template>
+                    
 
                     <div class="layout horizontal">
                         <div class="layout vertical">
@@ -385,6 +423,10 @@ export class LeepsBimatrix extends PolymerElement {
             signaltwoFreq: {
                 type: Number,
             },
+            signalthreeExist: {
+                type: Boolean,
+                value: false,
+            },
             myChoiceSeries: {
                 type: Array,
                 value: () => {
@@ -427,6 +469,8 @@ export class LeepsBimatrix extends PolymerElement {
     ready() {
         super.ready()
         console.log(this.signalExist);
+        console.log(this.signaltwoExist);
+        console.log(this.signalthreeExist);
         // set payoff indices
         if (this.$.constants.idInGroup === undefined) {
             console.log('Not in game, manually setting payoffIndex');
@@ -497,16 +541,18 @@ export class LeepsBimatrix extends PolymerElement {
     }
     _handleGroupDecisionsEvent(event) {
         if(this.numSubperiods > 0){
-            this.timer += 1;
-            if(this.timer == this.signalFreq){
-                this.timer = 0;
-                if(this.shadowRoot.querySelector('#signal').textContent != '@' && this.shadowRoot.querySelector('#signal').textContent != '#'){
-                    this.shadowRoot.querySelector('#signal').textContent = '#';
+            if(this.signalExist){
+                this.timer += 1;
+                if(this.timer == this.signalFreq){
+                    this.timer = 0;
+                    if(this.shadowRoot.querySelector('#signal').textContent != '@' && this.shadowRoot.querySelector('#signal').textContent != '#'){
+                        this.shadowRoot.querySelector('#signal').textContent = '#';
+                    }
+                    else if(this.shadowRoot.querySelector('#signal').textContent == '@'){
+                        this.shadowRoot.querySelector('#signal').textContent = '#';
+                    }
+                    else this.shadowRoot.querySelector('#signal').textContent = '@';
                 }
-                else if(this.shadowRoot.querySelector('#signal').textContent == '@'){
-                    this.shadowRoot.querySelector('#signal').textContent = '#';
-                }
-                else this.shadowRoot.querySelector('#signal').textContent = '@';
             }
             if(this.signaltwoExist){
                 this.timerTwo += 1;
@@ -528,16 +574,18 @@ export class LeepsBimatrix extends PolymerElement {
         const secondsPerSubperiod = this.periodLength / this.numSubperiods;
         this._subperiodProgress = 100 * ((deltaT / 1000) / secondsPerSubperiod);
         if(this.numSubperiods == 0){
-            this.timer += 1;
-            if(this.timer >= (this.signalFreq * 37)){
-                this.timer = 0;
-                if(this.shadowRoot.querySelector('#signal').textContent != '@' && this.shadowRoot.querySelector('#signal').textContent != '#'){
-                    this.shadowRoot.querySelector('#signal').textContent = '#';
+            if(this.signalExist){
+                this.timer += 1;
+                if(this.timer >= (this.signalFreq * 37)){
+                    this.timer = 0;
+                    if(this.shadowRoot.querySelector('#signal').textContent != '@' && this.shadowRoot.querySelector('#signal').textContent != '#'){
+                        this.shadowRoot.querySelector('#signal').textContent = '#';
+                    }
+                    else if(this.shadowRoot.querySelector('#signal').textContent == '@'){
+                        this.shadowRoot.querySelector('#signal').textContent = '#';
+                    }
+                    else this.shadowRoot.querySelector('#signal').textContent = '@';
                 }
-                else if(this.shadowRoot.querySelector('#signal').textContent == '@'){
-                    this.shadowRoot.querySelector('#signal').textContent = '#';
-                }
-                else this.shadowRoot.querySelector('#signal').textContent = '@';
             }
             if(this.signaltwoExist){
                 this.timerTwo += 1;
