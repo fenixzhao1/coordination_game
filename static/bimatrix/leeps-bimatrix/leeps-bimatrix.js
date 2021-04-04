@@ -159,15 +159,7 @@ export class LeepsBimatrix extends PolymerElement {
                     -moz-animation-fill-mode:both; 
                 }
             </style>
-            <template is="dom-if" if="[[ signalthreeExist ]]">
-                <div class="layout vertical center">
-                    <div class="layout vertical end">
-                        <div class="meter" style="width:13%;position: absolute; right: 0px;margin-right: 310px;margin-bottom: 10px;">
-                                <span style="width:100%;"><span class="progress"></span></span>
-                        </div>
-                    </div>
-                </div>
-            </template>
+            
 
             <otree-constants id="constants"></otree-constants>
             <redwood-period
@@ -194,6 +186,18 @@ export class LeepsBimatrix extends PolymerElement {
             <div class="layout vertical center">
             
                 <div class="layout vertical end">
+                    
+
+                    <template is="dom-if" if="[[ signalthreeExist ]]">
+                        <div class="layout vertical center">
+                            <div class="layout vertical end">
+                                <div class="meter" style="width:13%;position: absolute;margin-bottom: 10px;">
+                                        <span style="width:100%;"><span class="progress"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
                     <template is="dom-if" if="[[ signalthreeExist ]]">
                         <div style="height:60px;">
                         </div>
