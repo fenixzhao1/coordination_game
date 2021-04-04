@@ -150,7 +150,7 @@ export class LeepsBimatrix extends PolymerElement {
                 }
 
                 .progress {
-                    background-color: #e4c465;
+                    background-color: #008000;
                     animation: progressBar 6s ease-in-out infinite;
                     animation-fill-mode:both;
                     -webkit-animation: progressBar 6s ease-in-out infinite;
@@ -162,7 +162,7 @@ export class LeepsBimatrix extends PolymerElement {
             <template is="dom-if" if="[[ signalthreeExist ]]">
                 <div class="layout vertical center">
                     <div class="layout vertical end">
-                        <div class="meter" style="width:17%;position: absolute; right: 0px;margin-right: 20%;">
+                        <div class="meter" style="width:13%;position: absolute; right: 0px;margin-right: 22%;margin-bottom: 10px;">
                                 <span style="width:100%;"><span class="progress"></span></span>
                         </div>
                     </div>
@@ -192,7 +192,12 @@ export class LeepsBimatrix extends PolymerElement {
             </redwood-channel>
 
             <div class="layout vertical center">
+            
                 <div class="layout vertical end">
+                    <template is="dom-if" if="[[ signalthreeExist ]]">
+                        <div style="height:60px;">
+                        </div>
+                    </template>
 
                     <template is="dom-if" if="[[ numSubperiods ]]">
                         <paper-progress
