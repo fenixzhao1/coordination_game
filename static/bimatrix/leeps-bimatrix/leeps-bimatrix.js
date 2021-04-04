@@ -162,7 +162,7 @@ export class LeepsBimatrix extends PolymerElement {
             <template is="dom-if" if="[[ signalthreeExist ]]">
                 <div class="layout vertical center">
                     <div class="layout vertical end">
-                        <div class="meter" style="width:13%;position: absolute; right: 0px;margin-right: 22%;margin-bottom: 10px;">
+                        <div class="meter" style="width:13%;position: absolute; right: 0px;margin-right: 310px;margin-bottom: 10px;">
                                 <span style="width:100%;"><span class="progress"></span></span>
                         </div>
                     </div>
